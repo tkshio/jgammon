@@ -1,0 +1,9 @@
+rootProject.name = 'jgammon'
+
+include 'core'
+include 'tdlearn'
+include 'training'
+
+// ND4Jを使用する場合
+// include 'tdlearnND4J'
+

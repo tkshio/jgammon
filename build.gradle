@@ -1,0 +1,59 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
+    id 'java'
+}
+
+group 'org.example.salt'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 11
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    afterEvaluate {
+        javadoc {
+            options.addStringOption("encoding", "UTF-8")
+            options.addStringOption("docencoding", "UTF-8")
+        }
+
+        compileJava.options.encoding = "UTF-8"
+        compileTestJava.options.encoding = "UTF-8"
+    }
+}
+
+dependencies {
+    implementation project(':core')
+    implementation project(':tdlearn')
+    implementation project(':training')
+}
+
+task javadocGlobal(type: Javadoc, group: "Documentation") {
+    description 'Generates a global javadoc from all the modules'
+
+    source subprojects.collect { "${it.name}/src/main/java" }
+
+    doFirst {
+        classpath = files(subprojects.collect {
+            it.tasks.withType(Javadoc).collect { it.classpath }
+        })
+    }
+
+    options.links 'http://docs.oracle.com/javase/11/docs/api/'
+    options.showFromPackage()
+    options.addStringOption("encoding", "UTF-8")
+    options.addStringOption("docencoding", "UTF-8")
+
+    options.overview = "doc/overview.html"
+    destinationDir = file("${buildDir}/docs/javadoc")
+}
+
+
+shadowJar {
+    manifest {
+        attributes("Main-class": "com.github.tkshio.jgammon.app.Main")
+    }
+}

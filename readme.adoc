@@ -1,0 +1,36 @@
+== jgammon
+
+Javaで実装された、バックギャモンの自己対局プログラムです。
+
+Temporal-Difference Learningによる自己学習機能、すなわちGerald Tesauro氏の https://en.wikipedia.org/wiki/TD-Gammon[TD-Gammon] の学習手法を実装しています。
+
+== ビルド
+
+----
+
+> gradlew shadowJar
+
+----
+
+== 実行
+
+----
+
+> java -jar build/libs/jgammon-1.0-SNAPSHOT-all.jar run -v 3
+
+----
+
+コマンドの詳細については、<<doc/usage.adoc#usage>> に記載しています
+
+== ライセンス
+
+本ソースコードのライセンスはApache License, Version 2.0とします。
+
+== 参考資料
+
+Temporal-Difference LearningおよびTD-Gammonについては、以下の資料を参照しました。
+
+* https://web.stanford.edu/group/pdplab/pdphandbook/handbookch10.html
+* https://en.wikipedia.org/wiki/TD-Gammon
+* http://incompleteideas.net/sutton/book/ebook/node108.html#TD-Gammon
+
