@@ -1,5 +1,7 @@
 == jgammon
 
+image:https://circleci.com/gh/tkshio/jgammon.svg?style=svg["tkshio", link="https://circleci.com/gh/tkshio/jgammon"]
+
 Javaで実装された、バックギャモンの自己対局プログラムです。
 
 Temporal-Difference Learningによる自己学習機能、すなわちGerald Tesauro氏の https://en.wikipedia.org/wiki/TD-Gammon[TD-Gammon] の学習手法を実装しています。
