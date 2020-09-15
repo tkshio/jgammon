@@ -63,4 +63,12 @@ public final class TestUtils {
         }
         return result;
     }
+
+    public static int[] toIntArray(AbsoluteBackgammonBoard board) {
+        int[] result = new int[board.size()];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = board.getPointAt(i);
+        }
+        return result;
+    }
 }

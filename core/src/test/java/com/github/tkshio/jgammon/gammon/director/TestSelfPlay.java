@@ -16,10 +16,10 @@ public class TestSelfPlay {
     public void testWhiteWin() {
         int[] init = {
                 0,
-                -15, 0, 0, 0, 0, 0,
+                -5, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 5,
+                0, 0, 0, 0, 0, 15,
                 0
         };
         BackgammonBoard _board = BackgammonBoard.create(BGType.standard, init);
@@ -31,13 +31,20 @@ public class TestSelfPlay {
             public void startGame(GameInfo info, BackgammonState initialState) {
 
                 assertEquals(0, turn);
-                int[] current = TestUtils.toIntArray(initialState.getBoard());
+                int[] current = TestUtils.toIntArray(initialState.getAbsoluteBoard());
                 assertArrayEquals(init, current);
             }
 
             @Override
             public void beginWhitePly(String label, BackgammonState state) {
-                int[][] answers = new int[][]{init,
+                int[] current = TestUtils.toIntArray(state.getBoard());
+                int[][] answers = new int[][]{
+                        {
+                                0,
+                                -15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5,
+                                0
+                        },
                         {
                                 0,
                                 -13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -51,30 +58,29 @@ public class TestSelfPlay {
                                 0
                         }
                 };
-                int[] current = TestUtils.toIntArray(state.getBoard());
                 assertArrayEquals(answers[turn], current);
             }
 
             @Override
             public void endWhitePly(String label, BackgammonState state) {
-                int[] current = TestUtils.toIntArray(state.getRevertedBoard());
+                int[] current = TestUtils.toIntArray(state.getBoard());
                 int[][] answers = {
                         {
                                 0,
-                                -15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+                                -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15,
                                 0
                         },
                         {
                                 0,
-                                -13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+                                -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13,
                                 0
                         },
                         {
                                 0,
-                                -11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11,
                                 0
                         }
                 };
@@ -150,10 +156,10 @@ public class TestSelfPlay {
     public void testRedWin() {
         int[] init = {
                 0,
-                -5, 0, 0, 0, 0, 0,
+                -15, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 15,
+                0, 0, 0, 0, 0, 5,
                 0
         };
         BackgammonBoard _board = BackgammonBoard.create(BGType.standard, init);
@@ -163,52 +169,57 @@ public class TestSelfPlay {
             @Override
             public void startGame(GameInfo info, BackgammonState initialState) {
                 assertEquals(0, turn);
-                int[] current = TestUtils.toIntArray(initialState.getBoard());
+                int[] current = TestUtils.toIntArray(initialState.getAbsoluteBoard());
                 assertArrayEquals(init, current);
             }
 
             @Override
             public void beginWhitePly(String label, BackgammonState state) {
+                int[] current = TestUtils.toIntArray(state.getRevertedBoard());
                 int[][] answers = new int[][]{
-                        init,
                         {
                                 0,
-                                -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13,
+                                -15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5,
                                 0
                         },
                         {
                                 0,
-                                -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11,
+                                -13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
+                                0
+                        },
+                        {
+                                0,
+                                -11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                                 0
                         }
 
                 };
-                int[] current = TestUtils.toIntArray(state.getBoard());
                 assertArrayEquals(answers[turn], current);
             }
 
             @Override
             public void endWhitePly(String label, BackgammonState state) {
-                int[] current = TestUtils.toIntArray(state.getRevertedBoard());
+                int[] current = TestUtils.toIntArray(state.getBoard());
                 int[][] answers = {
                         {
                                 0,
-                                -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 13,
+                                -13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5,
                                 0
                         },
                         {
                                 0,
-                                -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11,
+                                -11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,
                                 0
                         },
                         {
                                 0,
-                                -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9,
+                                -9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
                                 0
                         }
                 };
