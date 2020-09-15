@@ -36,7 +36,7 @@ public class TestAbsoluteBoard {
         testState(stateOp, stateRed,
                 (aBoard) -> {
                     for (int i = 0; i < arr.length; i++) {
-                        assertEquals(arr[i], -aBoard.getPointAt(25 - i));
+                        assertEquals(arr[i], aBoard.getPointAt(i));
                     }
                 }
         );

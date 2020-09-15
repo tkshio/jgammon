@@ -17,14 +17,16 @@ import java.util.stream.IntStream;
 public abstract class BackgammonState {
     private final BackgammonBoard board;
     private final BackgammonBoard reverted;
+    private final Supplier<AbsoluteBackgammonBoard> absolute;
 
     private final CheckerPlay lastCheckerPlay;
     private final int ply;
     private final Supplier<BackgammonResult> result;
 
-    protected BackgammonState(BackgammonBoard board, BackgammonBoard reverted, CheckerPlay checkerPlay, int ply) {
+    protected BackgammonState(BackgammonBoard board, BackgammonBoard reverted, BackgammonBoard absolute, CheckerPlay checkerPlay, int ply) {
         this.board = board;
         this.reverted = reverted;
+        this.absolute = Memoizer.memoize(() -> AbsoluteBackgammonBoard.absolute(absolute));
         this.lastCheckerPlay = checkerPlay;
         this.ply = ply;
         this.result = Memoizer.memoize(() -> isEndOfGame(this));
@@ -69,9 +71,15 @@ public abstract class BackgammonState {
     /**
      * 絶対座標のボードを得る
      *
+     * <p> Redは配列の内容をそのまま絶対座標として、Whiteは反転させて返す。
+     * したがって絶対座標のボードでは、Redの駒の数は正の値で示され、atPoint(0)がRedのバーポイントとなる。 </p>
+     * <p>座標は内部的な定義であり、BoardFormatterなどの出力系では（XGとの対応の都合により）Redが24->１の方向に進む、逆方向の表記になっていることに注意</p>
+     *
      * @return 絶対座標のボード
      */
-    public abstract AbsoluteBackgammonBoard getAbsoluteBoard();
+    public AbsoluteBackgammonBoard getAbsoluteBoard() {
+        return absolute.get();
+    }
 
     /**
      * プレイを適用し、相手の手番の状態を返す

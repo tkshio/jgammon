@@ -55,6 +55,6 @@ public class TestIsEndOfGame {
 
     private BackgammonState buildState(int[] init) {
         BackgammonBoard board = BackgammonBoard.create(BGType.standard, init);
-        return BackgammonStateOperator.create().whiteGoesFirst(board);
+        return BackgammonStateOperator.create().redGoesFirst(board);
     }
 }

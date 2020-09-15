@@ -142,9 +142,12 @@ public class BGOutputCodecs {
     public static String formatSente(BackgammonState state, double[] values) {
 
         // Stateの情報によって、先手番の評価値をred/whiteのどちら側に出力するかを決める
+        // stateはムーブ後の局面を表しているので、Red/Whiteが逆転している
         RWTuple<Supplier<String>> formatters = RWTuple.of(
-                () -> formatSenteAsRed(values), // 先手番が紅側の局面
-                () -> formatSenteAsWhite(values) // 上記の逆
+                () -> formatSenteForWhite(values),
+                // Whiteプレイヤーの評価値を出力する場合＝stateはRedState
+
+                () -> formatSenteForRed(values)  // 上記の逆
         );
 
         return state.acceptRWTuple(formatters).get();
@@ -161,27 +164,27 @@ public class BGOutputCodecs {
 
         // formatSente()と逆転している
         RWTuple<Supplier<String>> formatters = RWTuple.of(
-                () -> formatGoteAsRed(values),
-                () -> formatGoteAsWhite(values)
+                () -> formatGoteForWhite(values),
+                () -> formatGoteForRed(values)
         );
 
         return state.acceptRWTuple(formatters).get();
     }
 
-    private static String formatSenteAsRed(double[] values) {
+    private static String formatSenteForRed(double[] values) {
         return String.format("red %2.3f %2.3f / white %2.3f %2.3f", values[0] * 100, values[1] * 100, values[2] * 100, values[3] * 100);
     }
 
-    private static String formatSenteAsWhite(double[] values) {
+    private static String formatSenteForWhite(double[] values) {
         return String.format("red %2.3f %2.3f / white %2.3f %2.3f", values[2] * 100, values[3] * 100, values[0] * 100, values[1] * 100);
     }
 
-    private static String formatGoteAsWhite(double[] values) {
-        return formatSenteAsRed(values);
+    private static String formatGoteForWhite(double[] values) {
+        return formatSenteForRed(values);
     }
 
-    private static String formatGoteAsRed(double[] values) {
-        return formatSenteAsWhite(values);
+    private static String formatGoteForRed(double[] values) {
+        return formatSenteForWhite(values);
     }
 
 

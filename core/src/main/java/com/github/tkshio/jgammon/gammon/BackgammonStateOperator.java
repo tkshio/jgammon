@@ -116,36 +116,27 @@ public class BackgammonStateOperator {
     /**
      * 与えられた盤面について、Red側先攻として初期局面を生成する
      *
-     * @param board 初期盤面
+     * @param board 初期盤面、AbsoluteBoard＝Red視点で解釈される
      * @return 生成された初期局面
      */
-    public BackgammonStateWhite redGoesFirst(BackgammonBoard board) {
-        // Redがオープニングムーブを実施した後の状態がRedなので、Whiteで返す
-        return asWhite(board, board.revert(), CheckerPlay.EMPTY, 0);
+    public BackgammonStateRed redGoesFirst(BackgammonBoard board) {
+        return asRed(board, board.revert(), CheckerPlay.EMPTY, 0);
     }
 
     /**
      * 与えられた盤面について、White側先攻として初期局面を生成する
      *
-     * @param board 初期盤面
+     * @param board 初期盤面、AbsoluteBoard＝Red視点で解釈される
      * @return 生成された初期局面
      */
-    public BackgammonStateRed whiteGoesFirst(BackgammonBoard board) {
-        // redGoesFirstの逆
-        return asRed(board, board.revert(), CheckerPlay.EMPTY, 0);
+    public BackgammonStateWhite whiteGoesFirst(BackgammonBoard board) {
+        return asWhite(board.revert(), board, CheckerPlay.EMPTY, 0);
     }
 
     private static class BackgammonStateWhite extends BackgammonState {
-        private final BackgammonBoard board;
 
-        public BackgammonStateWhite(BackgammonBoard board, BackgammonBoard reverted, CheckerPlay checkerPlay, int ply) {
-            super(board, reverted, checkerPlay, ply);
-            this.board = board;
-        }
-
-        @Override
-        public AbsoluteBackgammonBoard getAbsoluteBoard() {
-            return AbsoluteBackgammonBoard.absolute(board);
+        BackgammonStateWhite(BackgammonBoard board, BackgammonBoard reverted, CheckerPlay checkerPlay, int ply) {
+            super(board, reverted, reverted, checkerPlay, ply);
         }
 
         @Override
@@ -162,16 +153,8 @@ public class BackgammonStateOperator {
     }
 
     private static class BackgammonStateRed extends BackgammonState {
-        private final BackgammonBoard reverted;
-
-        public BackgammonStateRed(BackgammonBoard board, BackgammonBoard reverted, CheckerPlay checkerPlay, int ply) {
-            super(board, reverted, checkerPlay, ply);
-            this.reverted = reverted;
-        }
-
-        @Override
-        public AbsoluteBackgammonBoard getAbsoluteBoard() {
-            return AbsoluteBackgammonBoard.absolute(reverted);
+        BackgammonStateRed(BackgammonBoard board, BackgammonBoard reverted, CheckerPlay checkerPlay, int ply) {
+            super(board, reverted, board, checkerPlay, ply);
         }
 
         @Override

@@ -101,10 +101,10 @@ public class TestBackgammonNodeDirector {
     public void runFromRedEoG() {
         int[] initialArrangements = new int[]{
                 0,
-                -1, 0, 0, 0, 0, 0,
+                -3, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 3,
+                0, 0, 0, 0, 0, 1,
                 0
         };
 
