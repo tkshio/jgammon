@@ -29,3 +29,19 @@ configurations {
     benchmarksImplementation.extendsFrom implementation
     benchimarksRuntimeOnly.extendsFrom runtimeOnly
 }
+
+task trainTDDefault(type: JavaExec) {
+    group = "Execution"
+    description = "Run training for td_default"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.github.tkshio.jgammon.app.Main'
+    args "train",
+            "--log", "out/200k.log",
+            "--xg", "out/200k_xg.txt",
+            "--out", "out/td_default.txt",
+            "--node", "200",
+            "--seed", "-3530823047905631875",
+            "10", "10",
+            "200000", "10", "200000", "10", "200000", "10", "200000", "10", "200000", "10",
+            "200000", "10", "200000", "10", "200000", "10", "200000", "10", "200000", "10"
+}
