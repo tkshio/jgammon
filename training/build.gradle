@@ -17,3 +17,15 @@ dependencies {
     // implementation project(':tdlearnND4J')
 
 }
+
+sourceSets {
+    benchmarks {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+configurations {
+    benchmarksImplementation.extendsFrom implementation
+    benchimarksRuntimeOnly.extendsFrom runtimeOnly
+}
