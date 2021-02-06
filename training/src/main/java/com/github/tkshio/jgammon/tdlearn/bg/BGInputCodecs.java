@@ -81,13 +81,13 @@ public class BGInputCodecs {
                 input[i * 8] = 1.0; // p > 0
                 input[i * 8 + 1] = (p > 1) ? 1.0 : 0.0;
                 input[i * 8 + 2] = (p > 2) ? 1.0 : 0.0;
-                input[i * 8 + 3] = (double) (p - 3) / 2.0;
+                input[i * 8 + 3] = (p > 3) ? (double) (p - 3) / 2.0 : 0.0;
                 white += p;
             } else if (p < 0) {
                 input[i * 8 + 4] = 1.0;
                 input[i * 8 + 5] = (-p > 1) ? 1.0 : 0.0;
                 input[i * 8 + 6] = (-p > 2) ? 1.0 : 0.0;
-                input[i * 8 + 7] = (double) (-p - 3) / 2.0;
+                input[i * 8 + 7] = (-p > 3) ? (double) (-p - 3) / 2.0 : 0.0;
                 red -= p;
             }
         }
