@@ -28,14 +28,14 @@ public class TestVSPlay {
         int depth = 1;
         BackgammonDirectorConf dConf = BackgammonDirectorConf.onePlyDirectorConf();
 
-        Player<BackgammonState> before = getLegacyPlayer(depth);
-        Player<BackgammonState> after = TDPlayerBuilder.buildDefaultPlayer(depth);
+        Player<BackgammonState> white = getLegacyPlayer(depth);
+        Player<BackgammonState> red = TDPlayerBuilder.defaultPlayerBuilder(depth).build();
 
         BackgammonAutoPlay.builder()
                 .dConf(dConf)
                 .contextHandler(backgammonLogger)
-                .white(before)
-                .red(after).build().run(100);
+                .white(white)
+                .red(red).build().run(1000);
     }
 
     private static Player<BackgammonState> getLegacyPlayer(int depth) throws IOException {
@@ -46,7 +46,10 @@ public class TestVSPlay {
 
         String path = "/td_legacy.1.0.txt";
         try (InputStream is = TestVSPlay.class.getResourceAsStream(path)) {
-            return TDPlayerBuilder.buildPlayerFromInputStream(is, depth, tdConf);
+            return TDPlayerBuilder.playerBuilderWithInputStream(is, depth, tdConf)
+                    .name("LEGACY")
+                    .build();
         }
     }
+
 }

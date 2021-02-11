@@ -1,7 +1,7 @@
 package com.github.tkshio.jgammon;
 
-import com.github.tkshio.jgammon.common.director.Player;
 import com.github.tkshio.jgammon.common.evaluator.OnePlyPlayer;
+import com.github.tkshio.jgammon.common.evaluator.PlayerBuilder;
 import com.github.tkshio.jgammon.common.evaluator.TwoPlyPlayer;
 import com.github.tkshio.jgammon.gammon.BackgammonState;
 import com.github.tkshio.jgammon.tdlearn.TDConf;
@@ -14,37 +14,36 @@ import java.io.InputStream;
 public class TDPlayerBuilder {
     private final static String path = "/td_default.txt";
 
-    public static Player<BackgammonState> buildPlayerFromInputStream(
+    public static PlayerBuilder<BackgammonState> playerBuilderWithInputStream(
             InputStream is,
             int depth) throws IOException {
         TDConf<BackgammonState> conf = BGConf.builder().build();
-        return buildPlayerFromInputStream(is, depth, conf);
+        return playerBuilderWithInputStream(is, depth, conf);
     }
 
-    public static Player<BackgammonState> buildPlayerFromInputStream(
+    public static PlayerBuilder<BackgammonState> playerBuilderWithInputStream(
             InputStream is,
             int depth, TDConf<BackgammonState> conf) throws IOException {
 
         var evs = TDLearnEvaluatorReader.readAsStableEv(conf, is);
 
-        Player<BackgammonState> player;
+
+        PlayerBuilder<BackgammonState> player;
         if (depth == 1) {
             player = OnePlyPlayer.<BackgammonState>builder()
                     .evs(evs)
-                    .name("TDLearn(1ply)")
-                    .build();
+                    .name("TDLearn(1ply)");
         } else {
             player = TwoPlyPlayer.<BackgammonState>builder()
                     .evs(evs)
-                    .name("TDLearn(2ply)")
-                    .build();
+                    .name("TDLearn(2ply)");
         }
         return player;
     }
 
-    public static Player<BackgammonState> buildDefaultPlayer(int depth) throws IOException {
+    public static PlayerBuilder<BackgammonState> defaultPlayerBuilder(int depth) throws IOException {
         try (InputStream is = getDefaultTDAsStream()) {
-            return TDPlayerBuilder.buildPlayerFromInputStream(is, depth);
+            return TDPlayerBuilder.playerBuilderWithInputStream(is, depth);
         }
     }
 

@@ -56,7 +56,7 @@ public class RunCommandArgs {
 
             int depth = Integer.parseInt(d);
             if (filename.isEmpty()) {
-                return TDPlayerBuilder.buildDefaultPlayer(depth);
+                return TDPlayerBuilder.defaultPlayerBuilder(depth).build();
             } else {
                 File file = new File(filename);
                 if (!file.exists()) {
@@ -65,7 +65,7 @@ public class RunCommandArgs {
                 }
 
                 try (InputStream is = new FileInputStream(file)) {
-                    return TDPlayerBuilder.buildPlayerFromInputStream(is, depth);
+                    return TDPlayerBuilder.playerBuilderWithInputStream(is, depth).build();
                 }
             }
         } else {
