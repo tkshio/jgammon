@@ -36,3 +36,7 @@ Temporal-Difference LearningおよびTD-Gammonについては、以下の資料�
 * https://en.wikipedia.org/wiki/TD-Gammon
 * http://incompleteideas.net/sutton/book/ebook/node108.html#TD-Gammon
 
+== 更新履歴
+
+2021/02/13:: 評価関数の不備の修正、再訓練
+2020/09/15:: 最初のリリース
