@@ -2,19 +2,16 @@ package com.github.tkshio.jgammon.app;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
-import com.github.tkshio.jgammon.DefaultTDReader;
+import com.github.tkshio.jgammon.TDPlayerBuilder;
 import com.github.tkshio.jgammon.common.director.Player;
 import com.github.tkshio.jgammon.common.evaluator.OnePlyPlayer;
-import com.github.tkshio.jgammon.common.evaluator.TwoPlyPlayer;
 import com.github.tkshio.jgammon.common.utils.SGTuple;
 import com.github.tkshio.jgammon.gammon.BackgammonState;
-import com.github.tkshio.jgammon.tdlearn.TDLearnEvaluatorReader;
-import com.github.tkshio.jgammon.tdlearn.bg.BGConf;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +56,7 @@ public class RunCommandArgs {
 
             int depth = Integer.parseInt(d);
             if (filename.isEmpty()) {
-                try (
-                        BufferedReader bufferedReader =
-                                DefaultTDReader.getDefaultTDReader()) {
-                    return buildPlayerFromFile(bufferedReader, depth);
-                }
-
+                return TDPlayerBuilder.defaultPlayerBuilder(depth).build();
             } else {
                 File file = new File(filename);
                 if (!file.exists()) {
@@ -72,38 +64,14 @@ public class RunCommandArgs {
                             "File {0} not found.", file.toString()));
                 }
 
-                try (BufferedReader bufferedReader =
-                             new BufferedReader(new FileReader(file))) {
-                    return buildPlayerFromFile(bufferedReader, depth);
+                try (InputStream is = new FileInputStream(file)) {
+                    return TDPlayerBuilder.playerBuilderWithInputStream(is, depth).build();
                 }
             }
         } else {
             // 引数はチェック済なので
             throw new IllegalStateException();
         }
-
-    }
-
-    private Player<BackgammonState> buildPlayerFromFile(BufferedReader reader,
-                                                        int depth) throws IOException {
-        var conf = BGConf.builder().build();
-
-        var evs = TDLearnEvaluatorReader.readAsStableEv(conf, reader);
-
-        Player<BackgammonState> player;
-        if (depth == 1) {
-            player = OnePlyPlayer.<BackgammonState>builder()
-                    .evs(evs)
-                    .name("TDLearn(1ply)")
-                    .build();
-        } else {
-            player = TwoPlyPlayer.<BackgammonState>builder()
-                    .evs(evs)
-                    .name("TDLearn(2ply)")
-                    .build();
-        }
-        return player;
-
 
     }
 

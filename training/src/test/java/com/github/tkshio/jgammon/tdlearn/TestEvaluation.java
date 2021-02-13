@@ -1,6 +1,6 @@
 package com.github.tkshio.jgammon.tdlearn;
 
-import com.github.tkshio.jgammon.DefaultTDReader;
+import com.github.tkshio.jgammon.TDPlayerBuilder;
 import com.github.tkshio.jgammon.common.context.GameContextHandler;
 import com.github.tkshio.jgammon.common.evaluator.*;
 import com.github.tkshio.jgammon.common.node.IndexedStateNode;
@@ -12,7 +12,6 @@ import com.github.tkshio.jgammon.gammon.utils.RollUtils;
 import com.github.tkshio.jgammon.tdlearn.bg.BGConf;
 import org.junit.Test;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Comparator;
@@ -21,9 +20,9 @@ import java.util.stream.Collectors;
 // 学習済評価器で任意の盤面を評価する・テストとしては機能しない
 public class TestEvaluation {
     private static SGTuple<StateEvaluator<BackgammonState>> getDefaultEVS() throws IOException {
-        try (BufferedReader reader = DefaultTDReader.getDefaultTDReader()) {
+        try (var is = TDPlayerBuilder.getDefaultTDAsStream()) {
             var conf = BGConf.builder().build();
-            return TDLearnEvaluatorReader.readAsStableEv(conf, reader);
+            return TDLearnEvaluatorReader.readAsStableEv(conf, is);
         }
     }
 

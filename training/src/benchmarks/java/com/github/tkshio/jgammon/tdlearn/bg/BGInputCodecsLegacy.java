@@ -10,11 +10,11 @@ import com.github.tkshio.jgammon.tdlearn.codecs.InputCodecs;
  * <p>
  * 各ポイントの駒数、オンザバー、ベアオフ済、手番を入力として使用する
  */
-public class BGInputCodecs {
+public class BGInputCodecsLegacy {
     /**
      * 標準サイズのバックギャモン用の{@code InputCodecs}
      */
-    public static final InputCodecs<BackgammonState> DEFAULT = codec(24);
+    public static final InputCodecs<BackgammonState> LEGACY_1_0 = codec(24);
 
     /**
      * 盤面のサイズに応じた{@code InputCodecs}を生成する
@@ -61,16 +61,6 @@ public class BGInputCodecs {
         return size * 8 + 6;
     }
 
-    /**
-     * バックギャモンの盤面を変換する
-     *
-     * @param board 変換対象となる盤面
-     * @return 評価結果
-     */
-    public static double[] encodeBG(BackgammonBoard board) {
-        int size = board.getPointsCount();
-        return encodeBG(board, size, inputSize(size));
-    }
 
     private static double[] encodeBG(BackgammonBoard board, int boardSize, int inputSize) {
         double[] input = new double[inputSize];
@@ -81,13 +71,13 @@ public class BGInputCodecs {
                 input[i * 8] = 1.0; // p > 0
                 input[i * 8 + 1] = (p > 1) ? 1.0 : 0.0;
                 input[i * 8 + 2] = (p > 2) ? 1.0 : 0.0;
-                input[i * 8 + 3] = (p > 3) ? (double) (p - 3) / 2.0 : 0.0;
+                input[i * 8 + 3] = (double) (p - 3) / 2.0;
                 white += p;
             } else if (p < 0) {
                 input[i * 8 + 4] = 1.0;
                 input[i * 8 + 5] = (-p > 1) ? 1.0 : 0.0;
                 input[i * 8 + 6] = (-p > 2) ? 1.0 : 0.0;
-                input[i * 8 + 7] = (-p > 3) ? (double) (-p - 3) / 2.0 : 0.0;
+                input[i * 8 + 7] = (double) (-p - 3) / 2.0;
                 red -= p;
             }
         }

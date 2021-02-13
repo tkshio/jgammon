@@ -24,6 +24,10 @@ public class TwoPlyPlayer<STATE> implements Player<STATE> {
     @Builder.Default
     private final String name = "NONAME";
 
+    public static class TwoPlyPlayerBuilder<STATE> implements PlayerBuilder<STATE> {
+
+    }
+
     private final SGTuple<StateEvaluator<STATE>> evs;
 
     /**

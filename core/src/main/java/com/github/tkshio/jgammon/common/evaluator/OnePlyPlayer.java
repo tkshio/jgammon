@@ -21,7 +21,9 @@ public class OnePlyPlayer<STATE> implements Player<STATE> {
     @Builder.Default
     private final String name = "NONAME";
 
+    public static class OnePlyPlayerBuilder<STATE> implements PlayerBuilder<STATE> {
 
+    }
     private final SGTuple<StateEvaluator<STATE>> evs;
 
     /**

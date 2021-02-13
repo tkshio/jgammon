@@ -15,6 +15,8 @@ import com.github.tkshio.jgammon.tdlearn.td.TDLearner;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +41,9 @@ public class TDLearnEvaluatorReader {
      */
     public static <STATE>
     SGTuple<StateEvaluator<STATE>> readAsStableEv(TDConf<STATE> conf,
-                                                  BufferedReader reader) throws IOException {
+                                                  InputStream is) throws IOException {
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
         var tdLearner = read(conf, reader);
 

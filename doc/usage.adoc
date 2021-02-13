@@ -67,7 +67,7 @@ java -jar jgammon-1.0-SNAPSHOT-all.jar training 10 3 100 10
 
 ----
 
-==== 出力オプション
+==== オプション
 
 ===== 学習結果の入出力
 
